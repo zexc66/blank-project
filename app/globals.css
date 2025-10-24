@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-green: #2E7D32;
+  --primary-gold: #F9A825;
+  --primary-orange: #FF6F00;
+  --primary-blue: #1976D2;
+
+  --neutral-900: #1A1A1A;
+  --neutral-700: #4A4A4A;
+  --neutral-500: #6B7280;
+  --neutral-300: #D1D5DB;
+  --neutral-100: #F3F4F6;
+  --neutral-50: #F9FAFB;
+
+  --success: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
+  --info: #3B82F6;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: Inter, system-ui, sans-serif;
+  background-color: #F9FAFB;
+  color: #1A1A1A;
+}
+
+.container {
+  @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+}
