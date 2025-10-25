@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Opportunity {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  title_ar      String
+  title_en      String
+  summary_ar    String
+  summary_en    String
+  sector        String
+  country       String
+  ticketMinUSD  Int?
+  ticketMaxUSD  Int?
+  stage         String
+  sdgs          String[]
+  esgScore      Int?
+  heroImage     String?
+  documents     String[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  intents InvestorIntent[]
+}
+
+model Partner {
+  id       String  @id @default(cuid())
+  name     String
+  type     String
+  country  String?
+  logoUrl  String?
+  link     String?
+}
+
+model CountryProfile {
+  id        String   @id @default(cuid())
+  iso2      String   @unique
+  name_ar   String
+  name_en   String
+  summary   String
+  indicators Json
+}
+
+model NewsPost {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  title_ar     String
+  title_en     String
+  body_ar      String
+  body_en      String
+  published_at DateTime
+}
+
+model InvestorIntent {
+  id             String   @id @default(cuid())
+  opportunityId  String
+  opportunity    Opportunity @relation(fields: [opportunityId], references: [id])
+  investorName   String
+  investorEmail  String
+  message        String?
+  createdAt      DateTime @default(now())
+  pdfUrl         String?
+}
