@@ -26,6 +26,11 @@ export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
   const url = req.nextUrl
 
+  // Allow preview and health without locale redirection
+  if (pathname === '/preview' || pathname === '/api/health') {
+    return withSecurityHeaders(NextResponse.next())
+  }
+
   // Redirect to default locale if missing
   const locale = getLocale(pathname)
   if (!locale) {
