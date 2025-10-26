@@ -1,0 +1,11 @@
+{
+  "collectionName": "components_common_indicators",
+  "info": {
+    "displayName": "Indicator",
+    "description": "Key/value indicator item"
+  },
+  "attributes": {
+    "key": { "type": "string" },
+    "value": { "type": "string" }
+  }
+}

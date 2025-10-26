@@ -1,0 +1,11 @@
+{
+  "collectionName": "components_common_kpis",
+  "info": {
+    "displayName": "KPI",
+    "description": "Label/value KPI for opportunities"
+  },
+  "attributes": {
+    "label": { "type": "string" },
+    "value": { "type": "string" }
+  }
+}
