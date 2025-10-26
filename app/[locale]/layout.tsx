@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { isRTL, Locale } from '@/i18n/config'
 import Link from 'next/link'
+import RegisterSW from '@/components/pwa/RegisterSW'
 
 export const metadata: Metadata = {
   title: 'AIABASD / AIBA',
@@ -23,6 +24,7 @@ export default function LocaleLayout({
   return (
     <html lang={params.locale} dir={dir}>
       <body className="min-h-screen bg-neutral-50 text-neutral-900">
+        <RegisterSW />
         <header className="border-b bg-white">
           <div className="container flex h-16 items-center justify-between">
             <Link href={`/${params.locale}`} className="flex items-center gap-3">

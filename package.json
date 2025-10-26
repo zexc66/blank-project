@@ -36,7 +36,9 @@
     "pdf-lib": "^1.17.1",
     "posthog-js": "^1.143.0",
     "framer-motion": "^11.5.5",
-    "clsx": "^2.1.1"
+    "clsx": "^2.1.1",
+    "@aws-sdk/client-s3": "^3.648.1",
+    "@aws-sdk/s3-request-presigner": "^3.648.1"
   },
   "devDependencies": {
     "typescript": "^5.6.3",

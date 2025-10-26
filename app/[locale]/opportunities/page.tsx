@@ -1,34 +1,63 @@
 import Link from 'next/link'
 import { getOpportunities } from '@/lib/strapi-client'
 
+async function fetchSearch(params: Record<string, string | undefined>) {
+  const base = process.env.NEXT_PUBLIC_APP_URL || ''
+  const sp = new URLSearchParams()
+  Object.entries(params).forEach(([k, v]) => v && sp.set(k, v))
+  sp.set('useSearch', '1')
+  const res = await fetch(`${base}/api/opportunities?${sp.toString()}`, { next: { revalidate: 60 } })
+  if (!res.ok) return null
+  const data = await res.json()
+  return data.items
+}
+
 export default async function OpportunitiesList({
   params,
   searchParams,
 }: {
   params: { locale: 'ar' | 'en' | 'fr' }
-  searchParams?: { q?: string; sector?: string; country?: string; stage?: string }
+  searchParams?: { q?: string; sector?: string; country?: string; stage?: string; sort?: string }
 }) {
   const isAr = params.locale === 'ar'
   const isFr = params.locale === 'fr'
   const t = (ar: string, en: string, fr: string) => (isAr ? ar : isFr ? fr : en)
 
   const q = searchParams?.q?.trim()
-  const opportunities = await getOpportunities({
-    q,
-    sector: searchParams?.sector,
-    country: searchParams?.country,
-    stage: searchParams?.stage,
-  })
+  const sort = searchParams?.sort || 'ticketMinUSD:asc'
+
+  let opportunities: any[] | null = null
+  if (process.env.MEILISEARCH_HOST && process.env.MEILISEARCH_API_KEY) {
+    opportunities = await fetchSearch({
+      q,
+      sector: searchParams?.sector,
+      country: searchParams?.country,
+      stage: searchParams?.stage,
+    })
+  }
+  if (!opportunities) {
+    opportunities = await getOpportunities({
+      q,
+      sector: searchParams?.sector,
+      country: searchParams?.country,
+      stage: searchParams?.stage,
+    })
+  }
 
   return (
     <div className="container py-10">
       <h1 className="text-2xl font-semibold">{t('الفرص الاستثمارية', 'Investment Opportunities', "Opportunités d’investissement")}</h1>
 
-      <form className="mt-4 grid gap-3 md:grid-cols-5">
-        <input name="q" placeholder={t('بحث', 'Search', 'Recherche')} className="rounded border px-3 py-2 md:col-span-2" defaultValue={q} />
-        <input name="sector" placeholder={t('القطاع', 'Sector', 'Secteur')} className="rounded border px-3 py-2" defaultValue={searchParams?.sector} />
-        <input name="country" placeholder={t('الدولة', 'Country', 'Pays')} className="rounded border px-3 py-2" defaultValue={searchParams?.country} />
-        <input name="stage" placeholder={t('المرحلة', 'Stage', 'Phase')} className="rounded border px-3 py-2" defaultValue={searchParams?.stage} />
+      <form className="mt-4 grid gap-3 md:grid-cols-6">
+        <input name="q" placeholder={t('بحث', 'Search', 'Recherche')} className="rounded border px-3 py-2 md:col-span-2" defaultValue={q || ''} />
+        <input name="sector" placeholder={t('القطاع', 'Sector', 'Secteur')} className="rounded border px-3 py-2" defaultValue={searchParams?.sector || ''} />
+        <input name="country" placeholder={t('الدولة', 'Country', 'Pays')} className="rounded border px-3 py-2" defaultValue={searchParams?.country || ''} />
+        <input name="stage" placeholder={t('المرحلة', 'Stage', 'Phase')} className="rounded border px-3 py-2" defaultValue={searchParams?.stage || ''} />
+        <select name="sort" className="rounded border px-3 py-2">
+          <option value="ticketMinUSD:asc">{t('الحد الأدنى ↑', 'Min Ticket ↑', 'Ticket min ↑')}</option>
+          <option value="ticketMinUSD:desc">{t('الحد الأدنى ↓', 'Min Ticket ↓', 'Ticket min ↓')}</option>
+          <option value="esgScore:desc">{t('ESG الأعلى', 'Top ESG', 'ESG élevé')}</option>
+        </select>
         <button className="rounded bg-primary-blue px-3 py-2 text-white">{t('تصفية', 'Filter', 'Filtrer')}</button>
       </form>
 

@@ -71,3 +71,23 @@ export async function getCountryByIso2(iso2: string) {
   const item = data.data?.[0]
   return item ? { id: item.id, ...item.attributes } : null
 }
+
+export async function getNewsPosts() {
+  const params = {
+    'populate': JSON.stringify(['seo']),
+    'sort': 'published_at:desc',
+    'pagination[pageSize]': 20,
+  }
+  const data = await strapiFetch('/api/news-posts', params)
+  return data.data?.map((item: any) => ({ id: item.id, ...item.attributes })) || []
+}
+
+export async function getNewsBySlug(slug: string) {
+  const params = {
+    'filters[slug][$eq]': slug,
+    'populate': JSON.stringify(['seo']),
+  }
+  const data = await strapiFetch('/api/news-posts', params)
+  const item = data.data?.[0]
+  return item ? { id: item.id, ...item.attributes } : null
+}
