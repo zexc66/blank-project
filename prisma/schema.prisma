@@ -72,3 +72,12 @@ model InvestorIntent {
   createdAt      DateTime @default(now())
   pdfUrl         String?
 }
+
+model ContactInquiry {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  category  String
+  message   String
+  createdAt DateTime @default(now())
+}
