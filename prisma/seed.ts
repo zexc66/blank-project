@@ -3,14 +3,16 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 async function main() {
-  // Seed opportunities (Arabic source of truth with English mirrors)
+  // Seed opportunities (Arabic source of truth with English/French mirrors)
   const opportunities = [
     {
       slug: 'renewable-energy-solar-microgrid-kenya',
       title_ar: 'شبكات طاقة شمسية مصغرة للمجتمعات',
       title_en: 'Community Solar Microgrids',
+      title_fr: 'Micro-réseaux solaires communautaires',
       summary_ar: 'حل طاقة متجددة للمناطق الريفية يدعم الوصول للطاقة النظيفة.',
       summary_en: 'Renewable energy solution for rural areas enabling clean energy access.',
+      summary_fr: "Solution d'énergie renouvelable pour les zones rurales facilitant l'accès à une énergie propre.",
       sector: 'energy',
       country: 'KE',
       ticketMinUSD: 500000,
@@ -25,8 +27,10 @@ async function main() {
       slug: 'agri-value-chain-modernization-ghana',
       title_ar: 'تحديث سلاسل القيمة الزراعية',
       title_en: 'Agricultural Value Chain Modernization',
+      title_fr: 'Modernisation de la chaîne de valeur agricole',
       summary_ar: 'برنامج شامل لرفع الإنتاجية واللوجستيات في الزراعة.',
       summary_en: 'Comprehensive program to enhance productivity and logistics in agriculture.',
+      summary_fr: "Programme complet pour améliorer la productivité et la logistique dans l'agriculture.",
       sector: 'agriculture',
       country: 'GH',
       ticketMinUSD: 300000,
@@ -41,8 +45,10 @@ async function main() {
       slug: 'healthcare-digital-clinics-nigeria',
       title_ar: 'عيادات رقمية مجتمعية',
       title_en: 'Community Digital Clinics',
+      title_fr: 'Cliniques numériques communautaires',
       summary_ar: 'حلول صحية رقمية لدعم الوصول للرعاية الأساسية.',
       summary_en: 'Digital health solutions to improve access to primary care.',
+      summary_fr: 'Solutions de santé numériques pour améliorer l’accès aux soins primaires.',
       sector: 'healthcare',
       country: 'NG',
       ticketMinUSD: 200000,
@@ -57,8 +63,10 @@ async function main() {
       slug: 'education-edtech-platform-egypt',
       title_ar: 'منصة تعليمية رقمية',
       title_en: 'EdTech Learning Platform',
+      title_fr: "Plateforme d'apprentissage EdTech",
       summary_ar: 'منصة تعليمية تفاعلية تدعم المهارات العصرية.',
       summary_en: 'Interactive learning platform supporting modern skills.',
+      summary_fr: 'Plateforme d’apprentissage interactive favorisant les compétences modernes.',
       sector: 'education',
       country: 'EG',
       ticketMinUSD: 150000,
@@ -73,8 +81,10 @@ async function main() {
       slug: 'infrastructure-logistics-hub-morocco',
       title_ar: 'مركز لوجستي إقليمي',
       title_en: 'Regional Logistics Hub',
+      title_fr: 'Hub logistique régional',
       summary_ar: 'تطوير بنية تحتية لوجستية لدعم التجارة العابرة للحدود.',
       summary_en: 'Logistics infrastructure to facilitate cross-border trade.',
+      summary_fr: 'Infrastructures logistiques pour faciliter le commerce transfrontalier.',
       sector: 'infrastructure',
       country: 'MA',
       ticketMinUSD: 1000000,
@@ -89,8 +99,10 @@ async function main() {
       slug: 'tourism-eco-resorts-tanzania',
       title_ar: 'منتجعات سياحية بيئية',
       title_en: 'Eco-friendly Tourism Resorts',
+      title_fr: 'Stations touristiques écologiques',
       summary_ar: 'تعزيز السياحة المستدامة مع حماية الموارد الطبيعية.',
       summary_en: 'Promoting sustainable tourism while preserving natural resources.',
+      summary_fr: 'Promotion du tourisme durable tout en préservant les ressources naturelles.',
       sector: 'tourism',
       country: 'TZ',
       ticketMinUSD: 400000,
@@ -114,6 +126,7 @@ async function main() {
       iso2: 'EG',
       name_ar: 'مصر',
       name_en: 'Egypt',
+      name_fr: 'Égypte',
       summary: 'اقتصاد متنوع مع إمكانات كبيرة في الطاقة والتعليم.',
       indicators: [
         { key: 'GDP_USD_BN', value: 400 },
@@ -127,6 +140,7 @@ async function main() {
       iso2: 'NG',
       name_ar: 'نيجيريا',
       name_en: 'Nigeria',
+      name_fr: 'Nigéria',
       summary: 'مركز اقتصادي رئيسي مع تطور سريع في التكنولوجيا.',
       indicators: [
         { key: 'GDP_USD_BN', value: 470 },
@@ -140,6 +154,7 @@ async function main() {
       iso2: 'KE',
       name_ar: 'كينيا',
       name_en: 'Kenya',
+      name_fr: 'Kenya',
       summary: 'رائد إقليمي في التكنولوجيا المالية والطاقة المتجددة.',
       indicators: [
         { key: 'GDP_USD_BN', value: 115 },
@@ -155,25 +170,31 @@ async function main() {
     {
       slug: 'strategic-africa-trade-power',
       title_ar: 'القوة التجارية لأفريقيا الحديثة',
-      title_en: 'The Trade Power of Modern Africa',
+      title_en: 'The Commercial Power of Modern Africa',
+      title_fr: "La puissance commerciale de l’Afrique moderne",
       body_ar: 'تحليل حديث حول فرص التجارة المتقدمة في أفريقيا.',
       body_en: 'A recent analysis on advanced trade opportunities in Africa.',
+      body_fr: 'Analyse récente des opportunités commerciales avancées en Afrique.',
       published_at: new Date(),
     },
     {
       slug: 'esg-commitment-africa',
       title_ar: 'التزام ESG في أفريقيا',
       title_en: 'ESG Commitment in Africa',
+      title_fr: "Engagement ESG en Afrique",
       body_ar: 'حوكمة وشفافية تدعم التنمية المستدامة.',
       body_en: 'Governance and transparency supporting sustainable development.',
+      body_fr: 'Gouvernance et transparence soutenant le développement durable.',
       published_at: new Date(),
     },
     {
       slug: 'ppp-opportunities-key-sectors',
       title_ar: 'فرص الشراكات في القطاعات الرئيسية',
       title_en: 'PPP Opportunities in Key Sectors',
+      title_fr: "Opportunités PPP dans les secteurs clés",
       body_ar: 'الزراعة، الصناعة، الطاقة، الصحة، التعليم، السياحة، النقل، التكنولوجيا.',
       body_en: 'Agriculture, industry, energy, health, education, tourism, transport, technology.',
+      body_fr: 'Agriculture, industrie, énergie, santé, éducation, tourisme, transport, technologie.',
       published_at: new Date(),
     }
   ]
@@ -196,6 +217,7 @@ async function main() {
         iso2: c.iso2,
         name_ar: c.name_ar,
         name_en: c.name_en,
+        name_fr: c.name_fr,
         summary: c.summary,
         indicators: c.indicators as any,
       }

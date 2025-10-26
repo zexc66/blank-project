@@ -7,6 +7,10 @@ export const metadata: Metadata = {
   description: 'African International Business Alliance & Sustainable Development',
 }
 
+function t(locale: Locale, ar: string, en: string, fr: string) {
+  return locale === 'ar' ? ar : locale === 'fr' ? fr : en
+}
+
 export default function LocaleLayout({
   children,
   params,
@@ -26,19 +30,19 @@ export default function LocaleLayout({
               <span className="font-semibold">AIABASD / AIBA</span>
             </Link>
             <nav className="hidden gap-6 md:flex">
-              <Link href={`/${params.locale}`}>{params.locale === 'ar' ? 'الرئيسية' : 'Home'}</Link>
-              <Link href={`/${params.locale}/opportunities`}>{params.locale === 'ar' ? 'الفرص' : 'Opportunities'}</Link>
-              <Link href={`/${params.locale}/sectors/energy`}>{params.locale === 'ar' ? 'القطاعات' : 'Sectors'}</Link>
-              <Link href={`/${params.locale}/countries/EG`}>{params.locale === 'ar' ? 'البلدان' : 'Countries'}</Link>
-              <Link href={`/${params.locale}/news`}>{params.locale === 'ar' ? 'الأخبار' : 'News'}</Link>
-              <Link href={`/${params.locale}/investor`}>{params.locale === 'ar' ? 'المستثمر' : 'Investor'}</Link>
+              <Link href={`/${params.locale}`}>{t(params.locale, 'الرئيسية', 'Home', 'Accueil')}</Link>
+              <Link href={`/${params.locale}/opportunities`}>{t(params.locale, 'الفرص', 'Opportunities', 'Opportunités')}</Link>
+              <Link href={`/${params.locale}/sectors/energy`}>{t(params.locale, 'القطاعات', 'Sectors', 'Secteurs')}</Link>
+              <Link href={`/${params.locale}/countries/EG`}>{t(params.locale, 'البلدان', 'Countries', 'Pays')}</Link>
+              <Link href={`/${params.locale}/news`}>{t(params.locale, 'الأخبار', 'News', 'Actualités')}</Link>
+              <Link href={`/${params.locale}/investor`}>{t(params.locale, 'المستثمر', 'Investor', 'Investisseur')}</Link>
             </nav>
-            <div className="flex items-center gap-3">
-              <Link
-                href={`/${params.locale === 'ar' ? 'en' : 'ar'}`}
-                className="rounded border px-3 py-2 text-sm"
-              >
+            <div className="flex items-center gap-2">
+              <Link href={`/${params.locale === 'ar' ? 'en' : 'ar'}`} className="rounded border px-3 py-2 text-sm">
                 {params.locale === 'ar' ? 'EN' : 'AR'}
+              </Link>
+              <Link href={`/${params.locale === 'fr' ? 'en' : 'fr'}`} className="rounded border px-3 py-2 text-sm">
+                {params.locale === 'fr' ? 'EN' : 'FR'}
               </Link>
             </div>
           </div>

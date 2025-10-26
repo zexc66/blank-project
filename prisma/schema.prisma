@@ -12,8 +12,10 @@ model Opportunity {
   slug          String   @unique
   title_ar      String
   title_en      String
+  title_fr      String
   summary_ar    String
   summary_en    String
+  summary_fr    String
   sector        String
   country       String
   ticketMinUSD  Int?
@@ -43,6 +45,7 @@ model CountryProfile {
   iso2      String   @unique
   name_ar   String
   name_en   String
+  name_fr   String
   summary   String
   indicators Json
 }
@@ -52,8 +55,10 @@ model NewsPost {
   slug         String   @unique
   title_ar     String
   title_en     String
+  title_fr     String
   body_ar      String
   body_en      String
+  body_fr      String
   published_at DateTime
 }
 
