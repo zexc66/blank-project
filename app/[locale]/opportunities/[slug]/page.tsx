@@ -1,12 +1,10 @@
-import { PrismaClient } from '@prisma/client'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { buildMetadata, JsonLd, breadcrumbJsonLd, offerJsonLd } from '@/lib/seo'
-
-const prisma = new PrismaClient()
+import { getOpportunityBySlug } from '@/lib/strapi-client'
 
 export async function generateMetadata({ params }: { params: { locale: 'ar' | 'en' | 'fr'; slug: string } }): Promise<Metadata> {
-  const opp = await prisma.opportunity.findUnique({ where: { slug: params.slug } })
+  const opp = await getOpportunityBySlug(params.slug)
   const isAr = params.locale === 'ar'
   const isFr = params.locale === 'fr'
   const title = opp ? (isAr ? opp.title_ar : isFr ? opp.title_fr : opp.title_en) : ''
@@ -17,7 +15,7 @@ export async function generateMetadata({ params }: { params: { locale: 'ar' | 'e
     path: `/${params.locale}/opportunities/${params.slug}`,
     title,
     description,
-    images: opp?.heroImage ? [{ url: opp.heroImage, alt: title }] : undefined,
+    images: opp?.hero_image?.data ? [{ url: opp.hero_image.data.attributes.url, alt: title }] : undefined,
   })
 }
 
@@ -30,7 +28,7 @@ export default async function OpportunityDetail({
   const isFr = params.locale === 'fr'
   const t = (ar: string, en: string, fr: string) => (isAr ? ar : isFr ? fr : en)
 
-  const opp = await prisma.opportunity.findUnique({ where: { slug: params.slug } })
+  const opp: any = await getOpportunityBySlug(params.slug)
   if (!opp) return <div className="container py-10">{t('غير موجود', 'Not found', 'Introuvable')}</div>
 
   const title = isAr ? opp.title_ar : isFr ? opp.title_fr : opp.title_en
@@ -38,6 +36,9 @@ export default async function OpportunityDetail({
 
   const base = process.env.SITE_BASE_URL || process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
   const url = `${base}/${params.locale}/opportunities/${opp.slug}`
+
+  const sdgs: string[] = Array.isArray(opp.sdgs) ? opp.sdgs : []
+  const docs = opp.documents?.data?.map((f: any) => f.attributes.url) || []
 
   return (
     <div className="container py-10">
@@ -61,7 +62,7 @@ export default async function OpportunityDetail({
           <div className="mt-3 flex flex-wrap gap-2 text-sm text-neutral-600">
             <span className="rounded bg-neutral-100 px-2 py-1">{opp.country}</span>
             <span className="rounded bg-neutral-100 px-2 py-1 capitalize">{opp.sector}</span>
-            {opp.sdgs.map((s) => (
+            {sdgs.map((s) => (
               <span key={s} className="rounded bg-success/10 px-2 py-1 text-success">
                 {s}
               </span>
@@ -76,7 +77,7 @@ export default async function OpportunityDetail({
           <div className="mt-6">
             <h2 className="text-xl font-semibold">{t('المستندات', 'Documents', 'Documents')}</h2>
             <ul className="mt-2 list-disc pl-5 text-neutral-700">
-              {opp.documents.length ? opp.documents.map((d) => <li key={d}>{d}</li>) : <li>{t('لا يوجد', 'None', 'Aucun')}</li>}
+              {docs.length ? docs.map((d: string) => <li key={d}><a href={d} target="_blank" rel="noreferrer">{d}</a></li>) : <li>{t('لا يوجد', 'None', 'Aucun')}</li>}
             </ul>
           </div>
         </div>
@@ -86,13 +87,13 @@ export default async function OpportunityDetail({
             <h3 className="font-medium">{t('التمويل', 'Funding', 'Financement')}</h3>
             <div className="mt-2 text-sm text-neutral-600">
               <p>
-                {t('الحد الأدنى:', 'Min:', 'Min :')} {opp.ticketMinUSD ? `${opp.ticketMinUSD.toLocaleString()}` : '-'}
+                {t('الحد الأدنى:', 'Min:', 'Min :')} {opp.ticket_min_usd ? `${opp.ticket_min_usd.toLocaleString()}` : '-'}
               </p>
               <p>
-                {t('الحد الأقصى:', 'Max:', 'Max :')} {opp.ticketMaxUSD ? `${opp.ticketMaxUSD.toLocaleString()}` : '-'}
+                {t('الحد الأقصى:', 'Max:', 'Max :')} {opp.ticket_max_usd ? `${opp.ticket_max_usd.toLocaleString()}` : '-'}
               </p>
               <p>{t('المرحلة:', 'Stage:', 'Phase :')} {opp.stage}</p>
-              <p>{t('درجة ESG:', 'ESG Score:', 'Score ESG :')} {opp.esgScore ?? '-'}</p>
+              <p>{t('درجة ESG:', 'ESG Score:', 'Score ESG :')} {opp.esg_score ?? '-'}</p>
             </div>
             <div className="mt-4 space-y-2">
               <Link href={`/${params.locale}/investor/opportunities/${opp.slug}/intent`} className="block w-full rounded bg-primary-orange px-3 py-2 text-center text-white">
