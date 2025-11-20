@@ -1,0 +1,86 @@
+import { SchemaTypeDefinition } from 'sanity'
+
+const seoFields = [
+  { name: 'meta_title_ar', type: 'string' },
+  { name: 'meta_title_en', type: 'string' },
+  { name: 'meta_title_fr', type: 'string' },
+  { name: 'meta_description_ar', type: 'text' },
+  { name: 'meta_description_en', type: 'text' },
+  { name: 'meta_description_fr', type: 'text' },
+  { name: 'focus_keywords', type: 'array', of: [{ type: 'string' }] },
+  { name: 'og_image', type: 'image' },
+  { name: 'noindex', type: 'boolean' },
+  { name: 'nofollow', type: 'boolean' },
+  { name: 'schema_type', type: 'string' },
+]
+
+export const schema: { types: SchemaTypeDefinition[] } = {
+  types: [
+    {
+      name: 'opportunity',
+      title: 'Opportunity',
+      type: 'document',
+      fields: [
+        { name: 'slug', type: 'slug', options: { source: 'title_en' } },
+        { name: 'title_ar', type: 'string' },
+        { name: 'title_en', type: 'string' },
+        { name: 'title_fr', type: 'string' },
+        { name: 'summary_ar', type: 'text' },
+        { name: 'summary_en', type: 'text' },
+        { name: 'summary_fr', type: 'text' },
+        { name: 'sector', type: 'string' },
+        { name: 'country', type: 'string' },
+        { name: 'ticketMinUSD', type: 'number' },
+        { name: 'ticketMaxUSD', type: 'number' },
+        { name: 'stage', type: 'string' },
+        { name: 'sdgs', type: 'array', of: [{ type: 'string' }] },
+        { name: 'esgScore', type: 'number' },
+        { name: 'heroImage', type: 'image' },
+        { name: 'documents', type: 'array', of: [{ type: 'file' }] },
+        ...seoFields,
+      ],
+    },
+    {
+      name: 'partner',
+      title: 'Partner',
+      type: 'document',
+      fields: [
+        { name: 'name', type: 'string' },
+        { name: 'type', type: 'string' },
+        { name: 'country', type: 'string' },
+        { name: 'logoUrl', type: 'url' },
+        { name: 'link', type: 'url' },
+      ],
+    },
+    {
+      name: 'countryProfile',
+      title: 'Country Profile',
+      type: 'document',
+      fields: [
+        { name: 'iso2', type: 'string' },
+        { name: 'name_ar', type: 'string' },
+        { name: 'name_en', type: 'string' },
+        { name: 'name_fr', type: 'string' },
+        { name: 'summary', type: 'text' },
+        { name: 'indicators', type: 'array', of: [{ type: 'object', fields: [{ name: 'key', type: 'string' }, { name: 'value', type: 'number' }] }] },
+        ...seoFields,
+      ],
+    },
+    {
+      name: 'newsPost',
+      title: 'News Post',
+      type: 'document',
+      fields: [
+        { name: 'slug', type: 'slug', options: { source: 'title_en' } },
+        { name: 'title_ar', type: 'string' },
+        { name: 'title_en', type: 'string' },
+        { name: 'title_fr', type: 'string' },
+        { name: 'body_ar', type: 'text' },
+        { name: 'body_en', type: 'text' },
+        { name: 'body_fr', type: 'text' },
+        { name: 'published_at', type: 'datetime' },
+        ...seoFields,
+      ],
+    },
+  ],
+}

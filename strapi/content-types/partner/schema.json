@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "partners",
+  "info": {
+    "singularName": "partner",
+    "pluralName": "partners",
+    "displayName": "Partner",
+    "description": "Partners and investors"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": { "type": "string", "required": true },
+    "type": {
+      "type": "enumeration",
+      "enum": ["Government","SOE","Fund","Corporate","NGO","EPC","Advisory"]
+    },
+    "country": { "type": "string" },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "link": { "type": "string" },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "common.seo"
+    }
+  }
+}

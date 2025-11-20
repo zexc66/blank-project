@@ -1,0 +1,61 @@
+{
+  "kind": "collectionType",
+  "collectionName": "opportunities",
+  "info": {
+    "singularName": "opportunity",
+    "pluralName": "opportunities",
+    "displayName": "Opportunity",
+    "description": "Investment opportunity with AR/EN/FR localization and SEO controls"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title_ar": { "type": "string", "required": true },
+    "title_en": { "type": "string", "required": true },
+    "title_fr": { "type": "string" },
+    "slug": {
+      "type": "uid",
+      "targetField": "title_en",
+      "required": true,
+      "unique": true
+    },
+    "summary_ar": { "type": "text" },
+    "summary_en": { "type": "text" },
+    "summary_fr": { "type": "text" },
+    "sector": {
+      "type": "enumeration",
+      "enum": ["Agriculture","Industry","Energy","Health","Education","Tourism","Transport","Technology"]
+    },
+    "country": { "type": "string" },
+    "ticket_min_usd": { "type": "integer" },
+    "ticket_max_usd": { "type": "integer" },
+    "stage": {
+      "type": "enumeration",
+      "enum": ["Concept","Feasibility","Structuring","Ready","Under Implementation"]
+    },
+    "sdgs": { "type": "json" },
+    "esg_score": { "type": "float" },
+    "kpis": {
+      "type": "component",
+      "repeatable": true,
+      "component": "common.kpi"
+    },
+    "documents": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": ["files"]
+    },
+    "hero_image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "common.seo"
+    }
+  }
+}

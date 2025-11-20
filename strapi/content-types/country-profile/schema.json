@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "country_profiles",
+  "info": {
+    "singularName": "country-profile",
+    "pluralName": "country-profiles",
+    "displayName": "Country Profile",
+    "description": "Country profile with indicators and localization"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "iso2": { "type": "string", "required": true, "unique": true },
+    "name_ar": { "type": "string" },
+    "name_en": { "type": "string" },
+    "name_fr": { "type": "string" },
+    "summary": { "type": "text" },
+    "indicators": {
+      "type": "component",
+      "repeatable": true,
+      "component": "common.indicator"
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "common.seo"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_common_seo",
+  "info": {
+    "displayName": "SEO",
+    "description": "AIO SEO fields per locale"
+  },
+  "attributes": {
+    "meta_title_ar": { "type": "string" },
+    "meta_title_en": { "type": "string" },
+    "meta_title_fr": { "type": "string" },
+    "meta_description_ar": { "type": "text" },
+    "meta_description_en": { "type": "text" },
+    "meta_description_fr": { "type": "text" },
+    "focus_keywords": { "type": "json" },
+    "og_image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "noindex": { "type": "boolean" },
+    "nofollow": { "type": "boolean" },
+    "schema_type": {
+      "type": "enumeration",
+      "enum": ["Organization","WebSite","BreadcrumbList","Offer","Article","Place"]
+    }
+  }
+}
